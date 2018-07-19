@@ -2,7 +2,9 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
@@ -68,6 +70,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
+    console.log(body)
 
     if (body.name === undefined || body.number === undefined) {
         return res.status(400).json({error: 'content missing'})
@@ -87,7 +90,7 @@ app.post('/api/persons', (req, res) => {
 
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
