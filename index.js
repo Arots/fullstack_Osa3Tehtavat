@@ -84,9 +84,10 @@ app.post('/api/persons', (req, res) => {
         number: body.number,
         id: Math.floor(Math.random() * Math.floor(200))
     }
+    console.log(person)
 
     persons = persons.concat(person)
-
+    console.log(persons)
     res.json(persons)
 
 })
