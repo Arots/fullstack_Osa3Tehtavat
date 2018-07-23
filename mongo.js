@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 // korvaa url oman tietokantasi urlilla. ethän laita salasanaa Githubiin!
-const url = 'mongodb://xxx:xxx@ds143971.mlab.com:43971/fullstack_persons'
+const url = 'mongodb://Fullstaga:Keijo92@ds143971.mlab.com:43971/fullstack_persons'
 
 mongoose.connect(url)
 
@@ -11,13 +11,25 @@ const Person = mongoose.model('Person', {
 })
 
 const person = new Person({
-  name: 'Arto Hellas',
-  number: '040-123456'
+  name: process.argv[2],
+  number: process.argv[3]
 })
 
-person
+if (person.name === undefined) {
+  Person
+    .find({})
+    .then(result => {
+      console.log("puhelinluettelo: ")
+      result.forEach(person => {
+        console.log(person.name, person.number)
+        mongoose.connection.close()
+      })
+    })
+} else {
+  person
   .save()
   .then(response => {
-    console.log('note saved!')
+    console.log(`lisätään henkilö ${person.name} numero ${person.number} luetteloon`)
     mongoose.connection.close()
   })
+}
