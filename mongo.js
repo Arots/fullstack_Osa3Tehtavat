@@ -1,23 +1,21 @@
 const mongoose = require('mongoose')
 
 // korvaa url oman tietokantasi urlilla. ethän laita salasanaa Githubiin!
-const url = 'mongodb://Fullstaga:Keijo92@ds143971.mlab.com:43971/fullstack_persons'
+const url = 'mongodb://xxx:xxx@ds143971.mlab.com:43971/fullstack_persons'
 
 mongoose.connect(url)
 
-const Note = mongoose.model('Note', {
-  content: String,
-  date: Date,
-  important: Boolean
+const Person = mongoose.model('Person', {
+  name: String,
+  number: String
 })
 
-const note = new Note({
-  content: 'HTML on helppoa',
-  date: new Date(),
-  important: true
+const person = new Person({
+  name: 'Arto Hellas',
+  number: '040-123456'
 })
 
-note
+person
   .save()
   .then(response => {
     console.log('note saved!')
