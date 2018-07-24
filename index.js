@@ -28,14 +28,13 @@ app.get('/api/persons', (req, res) => {
         })
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(person => person.id == id )
-    if ( person ) {
-        response.json(person)
-      } else {
-        return response.status(400).json({error: 'content missing'})
-    }
+app.get('/api/persons/:id', (req, res) => {
+    
+    Person
+        .findById(req.params.id)
+        .then(result => {
+            res.json(formatPerson(result))
+        })
 })
 
 app.get('/info', (req, res) => {
@@ -44,11 +43,12 @@ app.get('/info', (req, res) => {
      henkilön tiedot</div> <br/> <div> ${uusiPaiva} </div>`)
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    persons = persons.filter(person => person.id !== id)
-  
-    response.status(204).end()
+app.delete('/api/persons/:id', (req, res) => {
+    Person
+        .findByIdAndRemove(res.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
 })
 
 
@@ -70,7 +70,7 @@ app.post('/api/persons', (req, res) => {
 
     person
         .save()
-        then(result => {
+        .then(result => {
             res.json(formatNote(result))
         })
 
