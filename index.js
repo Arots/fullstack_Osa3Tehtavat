@@ -67,7 +67,7 @@ app.post('/api/persons', (req, res) => {
     person
         .save()
         .then(result => {
-            res.json(formatNote(result))
+            res.json(formatPerson(result))
         })
 
 })
