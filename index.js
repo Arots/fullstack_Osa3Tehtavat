@@ -56,8 +56,6 @@ app.post('/api/persons', (req, res) => {
 
     if (body.name === undefined || body.number === undefined) {
         return res.status(400).json({error: 'content missing'})
-    } else if (persons.map(person => person.name).includes(body.name)) {
-        return res.status(400).json({error: 'name must be unique'})
     }
 
     const person = new Person({
