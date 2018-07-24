@@ -24,14 +24,26 @@ app.get('/api/persons', (req, res) => {
         .then(persons => {
             res.json(persons.map(formatPerson))
         })
+        .catch(error => {
+            console.log(error)
+            res.status(404).end()
+        }) 
 })
 
 app.get('/api/persons/:id', (req, res) => {
     
     Person
         .findById(req.params.id)
-        .then(result => {
-            res.json(formatPerson(result))
+        .then(person => {
+            if (person) {
+                res.json(formatPerson(person))
+            } else {
+                res.status(404).end()
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'malformatted id'})
         })
 })
 
@@ -43,9 +55,13 @@ app.get('/info', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res) => {
     Person
-        .findByIdAndRemove(res.params.id)
+        .findByIdAndRemove(req.params.id)
         .then(result => {
             res.status(204).end()
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'malformatted Id'})
         })
 })
 
@@ -69,7 +85,30 @@ app.post('/api/persons', (req, res) => {
         .then(result => {
             res.json(formatPerson(result))
         })
+        .catch(error => {
+            console.log(error)
+            res.status(404).end()
+        })
 
+})
+
+app.put('/api/persons/:id', (req, res) => {
+    const body = req.body
+    
+    const person = {
+        name: body.name,
+        number: body.number
+    }
+
+    Person
+        .findByIdAndUpdate(req.params.id, person)
+        .then(newPersons => {
+            res.json(formatPerson(newPersons))
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'malformatted Id'})
+        })
 })
 
 const PORT = process.env.PORT || 3001
