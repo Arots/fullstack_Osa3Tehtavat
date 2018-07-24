@@ -3,46 +3,29 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person.js')
 
 app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(express.static('build'))
 
-let persons = [
-    {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Martti Tienari",
-      "number": "040-123456",
-      "id": 2
-    },
-    {
-      "name": "Timoteus Teme",
-      "number": "0400 0000 1111",
-      "id": 3
-    },
-    {
-      "name": "Johannes",
-      "number": "234445",
-      "id": 4
-    },
-    {
-      "name": "Anna Anniina",
-      "number": "88899",
-      "id": 5
-    }
-]
+const formatPerson = (person) = {
+    name: person.name,
+    number: person.number,
+    id: person._id
+}
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1> <div>NO PLEASE</div>')
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person
+        .find({})
+        .then(persons => {
+            response.json(persons.map(formatPerson))
+        })
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -81,14 +64,15 @@ app.post('/api/persons', (req, res) => {
 
     const person = {
         name: body.name,
-        number: body.number,
-        id: Math.floor(Math.random() * Math.floor(200))
+        number: body.number
     }
     console.log(person)
 
-    persons = persons.concat(person)
-    console.log(persons)
-    res.json(persons)
+    person
+        .save()
+        then(result => {
+            res.json(formatNote(result))
+        })
 
 })
 
