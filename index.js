@@ -10,10 +10,12 @@ app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(express.static('build'))
 
-const formatPerson = (person) = {
-    name: person.name,
-    number: person.number,
-    id: person._id
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
 }
 
 app.get('/', (req, res) => {
@@ -62,10 +64,10 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: 'name must be unique'})
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number
-    }
+    })
     console.log(person)
 
     person
