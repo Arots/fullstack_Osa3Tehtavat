@@ -18,15 +18,11 @@ const formatPerson = (person) => {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1> <div>NO PLEASE</div>')
-})
-
 app.get('/api/persons', (req, res) => {
     Person
         .find({})
         .then(persons => {
-            response.json(persons.map(formatPerson))
+            res.json(persons.map(formatPerson))
         })
 })
 
