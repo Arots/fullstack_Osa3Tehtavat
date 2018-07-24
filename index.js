@@ -30,6 +30,15 @@ app.get('/api/persons', (req, res) => {
         }) 
 })
 
+app.get('/info', (req, res) => {
+    const uusiPaiva = new Date()
+    Person
+        .find({})
+        .then(allPersons => {
+            res.json(`Puhelinluettelossa ${allPersons.length} henkilön tiedot ${uusiPaiva}`)
+        })
+})
+
 app.get('/api/persons/:id', (req, res) => {
     
     Person
