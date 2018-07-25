@@ -1,12 +1,13 @@
 {
-  "name": "osa3.1-11",
+  "name": "NodePersonBackend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "watch": "nodemon index.js"
+    "watch": "nodemon index.js",
+    "lint": "eslint ."
   },
   "author": "Odeboy",
   "license": "MIT",
@@ -19,6 +20,8 @@
     "morgan": "^1.9.0"
   },
   "devDependencies": {
+    "eslint": "^5.2.0",
+    "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.17.5"
   }
 }
