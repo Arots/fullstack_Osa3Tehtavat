@@ -89,6 +89,14 @@ app.post('/api/persons', (req, res) => {
     })
     console.log(person)
 
+    Person
+        .find({name: person.name})
+        then(result => {
+            if (result.name == undefined) {
+                res.status(400).end()
+            }
+        })
+
     person
         .save()
         .then(result => {
