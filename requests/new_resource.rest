@@ -3,6 +3,6 @@ Content-Type: application/json
 
 {
     "name": "God of Teme",
-    "number": "9999"
+    "number": "aaaaaaa"
 }
 

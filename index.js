@@ -90,11 +90,15 @@ app.post('/api/persons', (req, res) => {
     console.log(person)
 
     Person
-        .find({name: person.name})
-        then(result => {
-            if (result.name == undefined) {
+        .find({})
+        .then(result => {
+            if (result.map(people => people.name).includes(person.name)) {
                 res.status(400).end()
             }
+        })
+        .catch(error => {
+            console.log(error)
+            res.status(400).send({error: 'Errors occurred in testing the person'})
         })
 
     person
