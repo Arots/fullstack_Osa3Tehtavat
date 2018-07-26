@@ -11,56 +11,56 @@ app.use(morgan('tiny'))
 app.use(express.static('build'))
 
 const formatPerson = (person) => {
-    return {
-        name: person.name,
-        number: person.number,
-        id: person._id
-    }
+	return {
+		name: person.name,
+		number: person.number,
+		id: person._id
+	}
 }
 
 app.get('/api/persons', (req, res) => {
-    Person
-        .find({})
-        .then(persons => {
-            res.json(persons.map(formatPerson))
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(404).end()
-        }) 
+	Person
+		.find({})
+		.then(persons => {
+			res.json(persons.map(formatPerson))
+		})
+		.catch(error => {
+			console.log(error)
+			res.status(404).end()
+		}) 
 })
 
 app.get('/info', (req, res) => {
-    const uusiPaiva = new Date()
-    Person
-        .find({})
-        .then(allPersons => {
-            res.json(`Puhelinluettelossa ${allPersons.length} henkilön tiedot ${uusiPaiva}`)
-        })
+	const uusiPaiva = new Date()
+	Person
+		.find({})
+		.then(allPersons => {
+			res.json(`Puhelinluettelossa ${allPersons.length} henkilön tiedot ${uusiPaiva}`)
+		})
 })
 
 app.get('/api/persons/:id', (req, res) => {
     
-    Person
-        .findById(req.params.id)
-        .then(person => {
-            if (person) {
-                res.json(formatPerson(person))
-            } else {
-                res.status(404).end()
-            }
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(400).send({error: 'malformatted id'})
-        })
+	Person
+		.findById(req.params.id)
+		.then(person => {
+			if (person) {
+				res.json(formatPerson(person))
+			} else {
+				res.status(404).end()
+			}
+		})
+		.catch(error => {
+			console.log(error)
+			res.status(400).send({error: 'malformatted id'})
+		})
 })
 
-app.get('/info', (req, res) => {
-    const uusiPaiva = new Date()
-    res.send(`<div>puhelinluettelossa ${persons.length}
+/*app.get('/info', (req, res) => {
+	const uusiPaiva = new Date()
+	res.send(`<div>puhelinluettelossa ${persons.length}
      henkilön tiedot</div> <br/> <div> ${uusiPaiva} </div>`)
-})
+}) */
 
 app.delete('/api/persons/:id', (req, res) => {
     Person
@@ -104,35 +104,35 @@ app.post('/api/persons', (req, res) => {
     person
         .save()
         .then(result => {
-            res.json(formatPerson(result))
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(404).end()
-        })
+			res.json(formatPerson(result))
+		})
+		.catch(error => {
+			console.log(error)
+			res.status(404).end()
+		})
 
 })
 
 app.put('/api/persons/:id', (req, res) => {
-    const body = req.body
-    
-    const person = {
-        name: body.name,
-        number: body.number
-    }
+	const body = req.body
 
-    Person
-        .findByIdAndUpdate(req.params.id, person)
-        .then(newPersons => {
-            res.json(formatPerson(newPersons))
-        })
-        .catch(error => {
-            console.log(error)
-            res.status(400).send({error: 'malformatted Id'})
-        })
+	const person = {
+		name: body.name,
+		number: body.number
+	}
+
+	Person
+		.findByIdAndUpdate(req.params.id, person)
+		.then(newPersons => {
+			res.json(formatPerson(newPersons))
+		})
+		.catch(error => {
+			console.log(error)
+			res.status(400).send({ error: 'malformatted Id' })
+		})
 })
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+	console.log(`Server running on port ${PORT}`)
 })
